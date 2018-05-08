@@ -22,6 +22,11 @@
 		<dd><input id="reject_url" type="url" name="reject_url" value="{REJECT_URL}" style="width:80%;"></dd>
 	</dl>
 	<dl>
+		<dt><label for="posts">{L_ACP_POSTS}{L_COLON}</label><br /><span>{L_ACP_POSTS_EXPLAIN}</span></dt>
+		<dd><label><input type="radio" class="radio" id="posts" name="posts" value="1"<!-- IF POSTS --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+		<label><input type="radio" class="radio" name="posts" value="0"<!-- IF not POSTS --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+	</dl>
+	<dl>
 		<dt><label for="footerlink">{L_ACP_FOOTERLINK}{L_COLON}</label><br /><span>{L_ACP_FOOTERLINK_EXPLAIN}</span></dt>
 		<dd><label><input type="radio" class="radio" id="footerlink" name="footerlink" value="1"<!-- IF FOOTERLINK --> checked="checked"<!-- ENDIF --> /> {L_ENABLED}</label>
 		<label><input type="radio" class="radio" name="footerlink" value="0"<!-- IF not FOOTERLINK --> checked="checked"<!-- ENDIF --> /> {L_DISABLED}</label></dd>
