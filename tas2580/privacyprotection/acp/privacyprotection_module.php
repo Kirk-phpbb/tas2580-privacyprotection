@@ -141,6 +141,7 @@ class privacyprotection_module
 					$this->config->set('tas2580_privacyprotection_reject_url', $this->request->variable('reject_url', '', true));
 					$this->config->set('tas2580_privacyprotection_anonymize_ip', $this->request->variable('anonymize_ip', 0));
 					$this->config->set('tas2580_privacyprotection_footerlink', $this->request->variable('footerlink', 0));
+					$this->config->set('tas2580_privacyprotection_posts', $this->request->variable('posts', 0));
 
 					trigger_error($this->user->lang('ACP_SAVED') . adm_back_link($this->u_action));
 				}
@@ -152,6 +153,7 @@ class privacyprotection_module
 					'REJECT_GROUP'				=> $this->group_select_options($this->config['tas2580_privacyprotection_reject_group']),
 					'ANONYMIZE_IP'				=> $this->anonymize_ip_options($this->config['tas2580_privacyprotection_anonymize_ip']),
 					'FOOTERLINK'				=> $this->config['tas2580_privacyprotection_footerlink'],
+					'POSTS'						=> $this->config['tas2580_privacyprotection_posts'],
 				));
 				break;
 			case 'privacy':
@@ -208,7 +210,7 @@ class privacyprotection_module
 				$result = $this->db->sql_query($sql);
 				$count = (int) $db->sql_fetchfield('num_users');
 
-				$sql = 'SELECT user_id, username, user_colour, user_email, user_regdate, user_lastvisit, tas2580_privacy_last_accepted
+				$sql = 'SELECT user_id, username, user_colour, user_posts, user_email, user_regdate, user_lastvisit, tas2580_privacy_last_accepted
 					FROM ' .  USERS_TABLE . '
 						WHERE ' . $sql_where . '
 						AND user_type <> 2
@@ -217,6 +219,9 @@ class privacyprotection_module
 				while($row = $this->db->sql_fetchrow($result))
 				{
 					$template->assign_block_vars('list', array(
+						'POSTS'				=> $this->config['tas2580_privacyprotection_posts'],
+						'USER_POSTS'		=> $row['user_posts'],
+						'U_SEARCH_USER'		=> append_sid("{$this->phpbb_root_path}search.{$this->php_ext}", 'author_id=' . $row['user_id'] . '&amp;sr=posts'),
 						'JOINED'			=> $user->format_date($row['user_regdate']),
 						'LAST_VISIT'		=> (!$row['user_lastvisit']) ? ' - ' : $user->format_date($row['user_lastvisit']),
 						'USERNAME_FULL'		=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], false, append_sid("{$this->phpbb_root_path}adm/index.{$this->php_ext}", 'i=users&amp;mode=overview')),
